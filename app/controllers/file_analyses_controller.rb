@@ -11,5 +11,10 @@ class FileAnalysesController < ApplicationController
 
   def show
     @file_analysis = FileAnalysis.find(params[:id])
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @file_analysis }
+    end
   end
 end

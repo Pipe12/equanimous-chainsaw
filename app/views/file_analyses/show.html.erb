@@ -8,13 +8,24 @@
         </tr>
         <tr>
           <th>Status</th>
-          <td class="text-center"><%= @file_analysis.status %></td>
+          <td class="text-center status"><%= @file_analysis.status %></td>
         </tr>
         <tr>
           <th>Analyzed Rows</th>
-          <td class="text-center"><%= @file_analysis.analyzed_rows %></td>
+          <td class="text-center analyzed-rows"><%= @file_analysis.analyzed_rows %></td>
         </tr>
       </table>
     </div>
   </div>
 </div>
+
+<script>
+  function fetch() {
+    $.getJSON("<%= file_analysis_path(@file_analysis) %>", function(data) {
+      $('.status').html(data.status);
+      $('.analyzed-rows').html(data['analyzed_rows']);
+    });
+  }
+
+  setInterval(fetch, 3000);  
+</script>
