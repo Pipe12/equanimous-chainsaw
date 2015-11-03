@@ -9,7 +9,9 @@ class FileAnalysisJob < ActiveJob::Base
     csv.each do |row|
       sleep 5 # simulate heavy processing
       file_analysis.update(analyzed_rows: file_analysis.analyzed_rows + 1)
+      Pusher.trigger("file-analysis-#{file_analysis.id}", "progress", { message: file_analysis.to_json })
     end
     file_analysis.update(status: :finished)
+    Pusher.trigger("file-analysis-#{file_analysis.id}", "finished", { message: file_analysis.to_json })
   end
 end
